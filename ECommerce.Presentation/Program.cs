@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using ECommerce.Application;
+using ECommerce.Application.Common.Interfaces;
 using ECommerce.Infrastructure.Persistence;
 using ECommerce.Infrastructure;
 using ECommerce.Presentation;
+using ECommerce.Presentation.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,6 +67,10 @@ builder.Services.RegisterApplicationServices()
                 .RegisterInfrastructureServices(builder.Configuration)
                 .RegisterPersistenceServices(builder.Configuration)
                 .RegisterPresentationServices();
+
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 var app = builder.Build();
 

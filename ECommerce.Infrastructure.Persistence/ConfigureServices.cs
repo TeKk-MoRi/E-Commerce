@@ -14,14 +14,18 @@ public static class ConfigureServices
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
         services.AddDbContext<ApplicationDbContext>((sp, options) =>
+
         {
             options.UseSqlServer(
                 configuration.GetConnectionString("ApplicationDbContext"),
                 builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
-                options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+
+            options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
         });
 
         services.AddScoped<IApplicationUnitOfWork, ApplicationDbContext>();

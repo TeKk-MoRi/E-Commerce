@@ -1,6 +1,7 @@
 ﻿using ECommerce.Domain.Common.Events;
+namespace ECommerce.Domain.Common;
 
-public abstract class Entity
+public abstract class Entity: AuditableEntity
 {
     public Guid Id { get; protected set; }
 
