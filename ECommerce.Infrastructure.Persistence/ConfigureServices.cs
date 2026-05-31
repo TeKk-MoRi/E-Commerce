@@ -21,6 +21,7 @@ public static class ConfigureServices
             options.UseSqlServer(
                 configuration.GetConnectionString("ApplicationDbContext"),
                 builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
+                options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
         });
 
         services.AddScoped<IApplicationUnitOfWork, ApplicationDbContext>();
@@ -28,5 +29,3 @@ public static class ConfigureServices
         return services;
     }
 }
-
-
