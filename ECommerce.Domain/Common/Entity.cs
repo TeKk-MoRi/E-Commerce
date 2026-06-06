@@ -1,5 +1,5 @@
 ﻿using ECommerce.Domain.Common.Events;
-namespace ECommerce.Domain.Common;
+namespace ECommerce.Domain.Common.Events;
 
 public abstract class Entity: AuditableEntity
 {

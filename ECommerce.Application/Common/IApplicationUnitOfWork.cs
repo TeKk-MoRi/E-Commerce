@@ -13,6 +13,6 @@ public interface IUnitOfWork
 
 public interface IApplicationUnitOfWork : IUnitOfWork
 {
-    DbSet<User> Users { get; }
+   // DbSet<User> Users { get; }
     DbSet<Product> Products { get; }
 }

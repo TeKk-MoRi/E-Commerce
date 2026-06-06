@@ -1,12 +1,12 @@
 ﻿using ECommerce.Application.Common;
-using ECommerce.Application.Usecases.Products;
+using ECommerce.Application.Common.Enums;
+using ECommerce.Application.Usecases.Products.Create;
 using ECommerce.Domain.Entities.Products;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
 namespace ECommerce.Application.Tests.Features.Products;
-
 
 public class CreateProductCommandHandlerTests
 {
@@ -15,11 +15,22 @@ public class CreateProductCommandHandlerTests
     {
         // Arrange
         var uowMock = new Mock<IApplicationUnitOfWork>();
-
         var productsMock = new Mock<DbSet<Product>>();
 
-        uowMock.Setup(x => x.Products)
-               .Returns(productsMock.Object);
+        Product? capturedProduct = null;
+
+        productsMock
+            .Setup(x => x.AddAsync(
+                It.IsAny<Product>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<Product, CancellationToken>((product, _) =>
+            {
+                capturedProduct = product;
+            });
+
+        uowMock
+            .Setup(x => x.Products)
+            .Returns(productsMock.Object);
 
         var handler = new CreateProductCommandHandler(uowMock.Object);
 
@@ -32,14 +43,16 @@ public class CreateProductCommandHandlerTests
         var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        productsMock.Verify(x =>
-            x.AddAsync(It.IsAny<Product>(), It.IsAny<CancellationToken>()),
-            Times.Once);
+        result.IsSuccess.Should().BeTrue();
+        result.IsFailure.Should().BeFalse();
+        result.Error.Type.Should().Be(ErrorType.None);
+        result.Data.Should().NotBeEmpty();
+        result.Message.Should().Be("Product created successfully.");
 
-        uowMock.Verify(x =>
-            x.SaveChangesAsync(It.IsAny<CancellationToken>()),
-            Times.Once);
-
-        result.Should().NotBeEmpty();
+        capturedProduct.Should().NotBeNull();
+        capturedProduct!.Id.Should().Be(result.Data);
+        capturedProduct.Name.Should().Be("Laptop");
+        capturedProduct.Price.Should().Be(1000m);
+        capturedProduct.Stock.Should().Be(5);
     }
 }

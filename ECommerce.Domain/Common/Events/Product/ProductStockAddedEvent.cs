@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Domain.Common.Events;
+﻿namespace ECommerce.Domain.Common.Events.Product;
 
 public class ProductStockAddedEvent : DomainEventBase
 {

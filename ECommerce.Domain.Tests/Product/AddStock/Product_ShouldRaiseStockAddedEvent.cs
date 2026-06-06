@@ -1,8 +1,9 @@
 ﻿using ECommerce.Domain.Common.Events;
+using ECommerce.Domain.Common.Events.Product;
 using ECommerce.Domain.Tests.TestHelpers;
 using FluentAssertions;
 
-namespace ECommerce.Domain.Tests.Products.ProductTests.AddStock;
+namespace ECommerce.Domain.Tests.Product.AddStock;
 
 public class Product_ShouldRaiseStockAddedEvent
 {
@@ -11,6 +12,7 @@ public class Product_ShouldRaiseStockAddedEvent
     {
         // Arrange
         var product = new ProductBuilder().WithStock(5).Build();
+        product.ClearDomainEvents();
 
         // Act
         product.AddStock(3);

@@ -1,7 +1,7 @@
 ﻿using ECommerce.Domain.Entities.Products;
 using FluentAssertions;
 
-namespace ECommerce.Domain.Tests.Products.ProductTests.CreateProduct;
+namespace ECommerce.Domain.Tests.Product.CreateProduct;
 
 public class Create_ShouldCreateProduct
 {

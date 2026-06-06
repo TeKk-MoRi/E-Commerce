@@ -21,7 +21,7 @@ public static class ConfigureServices
         services.AddDbContext<ApplicationDbContext>((sp, options) =>
 
         {
-            options.UseSqlServer(
+            options.UseNpgsql(
                 configuration.GetConnectionString("ApplicationDbContext"),
                 builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
 

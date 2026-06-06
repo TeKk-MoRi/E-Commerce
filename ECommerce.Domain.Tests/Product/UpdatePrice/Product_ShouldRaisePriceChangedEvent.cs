@@ -1,8 +1,9 @@
 ﻿using ECommerce.Domain.Common.Events;
+using ECommerce.Domain.Common.Events.Product;
 using ECommerce.Domain.Tests.TestHelpers;
 using FluentAssertions;
 
-namespace ECommerce.Domain.Tests.Products.ProductTests.UpdatePrice;
+namespace ECommerce.Domain.Tests.Product.UpdatePrice;
 
 public class Product_ShouldRaisePriceChangedEvent
 {
@@ -11,6 +12,7 @@ public class Product_ShouldRaisePriceChangedEvent
     {
         // Arrange
         var product = new ProductBuilder().Build();
+        product.ClearDomainEvents();
 
         // Act
         product.UpdatePrice(200m);

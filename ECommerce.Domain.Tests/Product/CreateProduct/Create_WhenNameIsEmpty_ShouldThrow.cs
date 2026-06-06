@@ -3,7 +3,7 @@ using ECommerce.Domain.Exceptions;
 using ECommerce.Domain.Tests.TestHelpers;
 using FluentAssertions;
 
-namespace ECommerce.Domain.Tests.Products.ProductTests.Create;
+namespace ECommerce.Domain.Tests.Product.CreateProduct;
 
 public class Create_WhenNameIsEmpty_ShouldThrow
 {

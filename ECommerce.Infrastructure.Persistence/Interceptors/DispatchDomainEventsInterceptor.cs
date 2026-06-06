@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using ECommerce.Domain.Common;
+using ECommerce.Domain.Common.Events;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace ECommerce.Infrastructure.Persistence.Interceptors;

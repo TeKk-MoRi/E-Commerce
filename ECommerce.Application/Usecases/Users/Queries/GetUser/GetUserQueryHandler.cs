@@ -13,9 +13,10 @@ namespace ECommerce.Application.Usecases.Users.Queries.GetUser
         private readonly IApplicationUnitOfWork _uow = applicationUnitOfWork;
 
         public async Task<GetUserDto> Handle(GetUserQuery request,
-                                             CancellationToken cancellationToken = default)
-          => await _uow.Users
-                       .Select(x => new GetUserDto(Guid.Empty, x.Gender, x.Email))
-                       .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+                CancellationToken cancellationToken = default)
+            // => await _uow.Users
+            //              .Select(x => new GetUserDto(Guid.Empty, x.Gender, x.Email))
+            //              .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            => null;
     }
 }

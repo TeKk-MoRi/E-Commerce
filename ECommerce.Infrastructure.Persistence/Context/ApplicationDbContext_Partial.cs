@@ -9,7 +9,7 @@ namespace ECommerce.Infrastructure.Persistence.Context
 {
     public partial class ApplicationDbContext
     {
-        public DbSet<User> Users => Set<User>();
+        //public DbSet<User> Users => Set<User>();
         public DbSet<Product> Products => Set<Product>();
     }
 }

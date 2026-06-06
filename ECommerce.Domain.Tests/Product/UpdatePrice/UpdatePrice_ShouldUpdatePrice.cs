@@ -2,7 +2,7 @@
 using ECommerce.Domain.Tests.TestHelpers;
 using FluentAssertions;
 
-namespace ECommerce.Domain.Tests.Products.ProductTests.UpdatePrice;
+namespace ECommerce.Domain.Tests.Product.UpdatePrice;
 
 public class UpdatePrice_ShouldUpdatePrice
 {

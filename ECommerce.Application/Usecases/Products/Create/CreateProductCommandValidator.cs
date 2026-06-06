@@ -1,7 +1,7 @@
 ﻿using ECommerce.Application.Usecases.Products;
 using FluentValidation;
 
-namespace ECommerce.Application.Features.Products.Commands.Create;
+namespace ECommerce.Application.Usecases.Products.Create;
 
 public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
 {

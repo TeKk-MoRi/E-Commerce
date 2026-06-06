@@ -3,7 +3,7 @@ using ECommerce.Domain.Exceptions;
 using ECommerce.Domain.Tests.TestHelpers;
 using FluentAssertions;
 
-namespace ECommerce.Domain.Tests.Products.ProductTests.AddStock;
+namespace ECommerce.Domain.Tests.Product.AddStock;
 
 public class AddStock_WhenQuantityIsInvalid_ShouldThrow
 {
