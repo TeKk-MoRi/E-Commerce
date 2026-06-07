@@ -1,9 +1,5 @@
 ﻿using ECommerce.Domain.Enums;
 using ECommerce.Domain.ValueObjects.Users;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
 
 namespace ECommerce.Domain.Entities.Users
 {

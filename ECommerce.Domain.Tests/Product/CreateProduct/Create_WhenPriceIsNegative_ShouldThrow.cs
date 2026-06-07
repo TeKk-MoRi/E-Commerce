@@ -1,9 +1,6 @@
 ﻿using ECommerce.Domain.Exceptions;
 using ECommerce.Domain.Tests.TestHelpers;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ECommerce.Domain.Tests.Product.CreateProduct
 {

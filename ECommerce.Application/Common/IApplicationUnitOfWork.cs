@@ -1,9 +1,6 @@
 ﻿using ECommerce.Domain.Entities.Products;
 using ECommerce.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ECommerce.Application.Common;
 public interface IUnitOfWork

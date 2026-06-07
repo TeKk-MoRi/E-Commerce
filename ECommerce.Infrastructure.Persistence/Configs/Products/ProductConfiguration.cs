@@ -1,9 +1,6 @@
 ﻿using ECommerce.Domain.Entities.Products;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ECommerce.Infrastructure.Persistence.Configs.Products;
 

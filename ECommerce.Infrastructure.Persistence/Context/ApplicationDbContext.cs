@@ -2,10 +2,7 @@
 using ECommerce.Domain.Entities.Products;
 using ECommerce.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace ECommerce.Infrastructure.Persistence.Context;
 public partial class ApplicationDbContext: DbContext, IApplicationUnitOfWork

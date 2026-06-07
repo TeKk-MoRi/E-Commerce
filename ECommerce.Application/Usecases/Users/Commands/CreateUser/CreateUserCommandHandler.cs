@@ -1,8 +1,5 @@
 ﻿using ECommerce.Application.Common;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ECommerce.Application.Usecases.Users.Commands.CreateUser
 {
