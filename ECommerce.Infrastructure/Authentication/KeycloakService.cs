@@ -61,6 +61,47 @@ public class KeycloakService : IKeycloakService
                 $"Login failed: {ex.Message}");
         }
     }
+    
+    public async Task<Result<KeycloakTokenResponse>> RefreshTokenAsync(string refreshToken)
+    {
+        try
+        {
+            var formData = new List<KeyValuePair<string, string>>
+            {
+                new("client_id", _config.ClientId),
+                new("client_secret", _config.ClientSecret),
+                new("grant_type", "refresh_token"),
+                new("refresh_token", refreshToken)
+            };
+
+            var response = await _httpClient.PostAsync(
+                $"/realms/{_config.Realm}/protocol/openid-connect/token",
+                new FormUrlEncodedContent(formData));
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return Unauthorized<KeycloakTokenResponse>(
+                    "Keycloak.InvalidRefreshToken",
+                    "Refresh token is invalid or expired.");
+            }
+
+            var content = await response.Content.ReadFromJsonAsync<KeycloakTokenResponse>();
+
+            return content is null
+                ? Failure<KeycloakTokenResponse>(
+                    "Keycloak.EmptyTokenResponse",
+                    "Keycloak returned an empty token response.")
+                : Result<KeycloakTokenResponse>.Success(
+                    content,
+                    "Token refreshed successfully.");
+        }
+        catch (Exception ex)
+        {
+            return Failure<KeycloakTokenResponse>(
+                "Keycloak.RefreshTokenFailed",
+                $"Refresh token failed: {ex.Message}");
+        }
+    }
 
     public async Task<Result<bool>> ValidateTokenAsync(string token)
     {
@@ -115,7 +156,7 @@ public class KeycloakService : IKeycloakService
                 new FormUrlEncodedContent(formData));
 
             return response.IsSuccessStatusCode
-                ? Result<bool>.Success(true)
+                ? Result<bool>.Success(true, "User logged out successfully.")
                 : Failure<bool>(
                     "Keycloak.LogoutFailed",
                     "Logout failed.");
@@ -574,19 +615,23 @@ public class KeycloakService : IKeycloakService
 
         var formData = new List<KeyValuePair<string, string>>
         {
-            new("client_id", _config.ClientId),
-            new("client_secret", _config.ClientSecret),
+            new("client_id", _config.AdminClientId),
             new("username", _config.AdminUsername),
             new("password", _config.AdminPassword),
             new("grant_type", "password")
         };
 
         var response = await _httpClient.PostAsync(
-            $"/realms/{_config.Realm}/protocol/openid-connect/token",
+            $"/realms/master/protocol/openid-connect/token",
             new FormUrlEncodedContent(formData));
 
         if (!response.IsSuccessStatusCode)
-            throw new UnauthorizedAccessException("Admin login failed.");
+        {
+            var error = await response.Content.ReadAsStringAsync();
+
+            throw new UnauthorizedAccessException(
+                $"Keycloak admin login failed: {error}");
+        }
 
         var content = await response.Content.ReadFromJsonAsync<KeycloakTokenResponse>();
 

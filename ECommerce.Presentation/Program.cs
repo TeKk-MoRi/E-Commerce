@@ -25,15 +25,21 @@ builder.Services
     .AddJwtBearer(options =>
     {
         options.Authority = $"{keycloakConfig.Authority}/realms/{keycloakConfig.Realm}";
+        options.Audience = keycloakConfig.ClientId;
+        options.RequireHttpsMetadata = false;
+
+        options.MapInboundClaims = false;
 
         options.TokenValidationParameters = new TokenValidationParameters
         {
+            ValidateIssuer = true,
             ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
 
-            RoleClaimType = ClaimTypes.Role
+            NameClaimType = "preferred_username",
+            RoleClaimType = "roles"
         };
-
-        options.RequireHttpsMetadata = false;
     });
 
 builder.Services.AddAuthorization(options =>

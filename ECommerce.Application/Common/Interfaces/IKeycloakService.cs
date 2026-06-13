@@ -6,9 +6,8 @@ namespace ECommerce.Application.Common.Interfaces
         // Authentication methods
         Task<Result<KeycloakTokenResponse>> LoginAsync(string username, string password);
         Task<Result<bool>> ValidateTokenAsync(string token);
-        Task<Result<bool>> LogoutAsync(string refreshToken);
-
-        // User management methods
+        Task<Result<bool>> LogoutAsync(string refreshToken);      
+        Task<Result<KeycloakTokenResponse>> RefreshTokenAsync(string refreshToken);
         Task<Result<string>> CreateUserAsync(string username, string email, string firstName, string lastName, string password);
         Task<Result<bool>> UpdateUserAsync(string userId, string email, string firstName, string lastName);
         Task<Result<bool>> DeleteUserAsync(string userId);
