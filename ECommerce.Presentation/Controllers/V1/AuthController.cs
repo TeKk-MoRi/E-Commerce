@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using ECommerce.Application.Common;
 using ECommerce.Application.Common.Interfaces;
 using ECommerce.Application.Usecases.Auth.login;
@@ -97,7 +98,7 @@ public class AuthController(ISender sender) : BaseController(sender)
             Email = User.FindFirst("email")?.Value,
             FirstName = User.FindFirst("given_name")?.Value,
             LastName = User.FindFirst("family_name")?.Value,
-            Roles = User.FindAll("roles").Select(x => x.Value).ToList()
+            Roles = User.FindAll(ClaimTypes.Role).Select(x => x.Value).ToList()
         });
     }
 

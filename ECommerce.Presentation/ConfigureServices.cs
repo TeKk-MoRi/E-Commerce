@@ -11,7 +11,7 @@ namespace ECommerce.Presentation
         {
             services.AddHttpContextAccessor();
             
-            services.AddScoped<IClaimsTransformation, KeycloakRoleClaimsTransformation>();
+            services.AddScoped<IClaimsTransformation, KeycloakClaimsTransformation>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             
             return services;

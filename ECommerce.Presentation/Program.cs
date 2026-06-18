@@ -38,7 +38,7 @@ builder.Services
             ValidateIssuerSigningKey = true,
 
             NameClaimType = "preferred_username",
-            RoleClaimType = "roles"
+            RoleClaimType = ClaimTypes.Role
         };
     });
 

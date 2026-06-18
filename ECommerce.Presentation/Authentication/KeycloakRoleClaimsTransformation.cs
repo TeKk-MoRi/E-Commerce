@@ -4,14 +4,11 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace ECommerce.Presentation.Authentication;
 
-public class KeycloakRoleClaimsTransformation : IClaimsTransformation
+public sealed class KeycloakClaimsTransformation : IClaimsTransformation
 {
     public Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
     {
         if (principal.Identity is not ClaimsIdentity identity)
-            return Task.FromResult(principal);
-
-        if (!identity.IsAuthenticated)
             return Task.FromResult(principal);
 
         AddRealmRoles(identity);
@@ -29,18 +26,17 @@ public class KeycloakRoleClaimsTransformation : IClaimsTransformation
 
         using var document = JsonDocument.Parse(realmAccess);
 
-        if (!document.RootElement.TryGetProperty("roles", out var roles))
+        if (!document.RootElement.TryGetProperty("roles", out var rolesElement))
             return;
 
-        foreach (var role in roles.EnumerateArray())
+        foreach (var role in rolesElement.EnumerateArray())
         {
             var roleName = role.GetString();
 
             if (string.IsNullOrWhiteSpace(roleName))
                 continue;
 
-            if (!identity.HasClaim(ClaimTypes.Role, roleName))
-                identity.AddClaim(new Claim(ClaimTypes.Role, roleName));
+            AddRoleIfMissing(identity, roleName);
         }
     }
 
@@ -55,19 +51,35 @@ public class KeycloakRoleClaimsTransformation : IClaimsTransformation
 
         foreach (var client in document.RootElement.EnumerateObject())
         {
-            if (!client.Value.TryGetProperty("roles", out var roles))
+            if (!client.Value.TryGetProperty("roles", out var rolesElement))
                 continue;
 
-            foreach (var role in roles.EnumerateArray())
+            foreach (var role in rolesElement.EnumerateArray())
             {
                 var roleName = role.GetString();
 
                 if (string.IsNullOrWhiteSpace(roleName))
                     continue;
 
-                if (!identity.HasClaim(ClaimTypes.Role, roleName))
-                    identity.AddClaim(new Claim(ClaimTypes.Role, roleName));
+                AddRoleIfMissing(identity, roleName);
             }
         }
+    }
+
+    private static readonly HashSet<string> ApplicationRoles =
+    [
+        "admin",
+        "customer"
+    ];
+
+    private static void AddRoleIfMissing(ClaimsIdentity identity, string role)
+    {
+        if (!ApplicationRoles.Contains(role))
+            return;
+
+        if (identity.HasClaim(ClaimTypes.Role, role))
+            return;
+
+        identity.AddClaim(new Claim(ClaimTypes.Role, role));
     }
 }
