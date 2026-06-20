@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <PackageId>ECommerce.BuildingBlocks</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>TeKk-MoRi</Authors>
+    <Company>TeKk-MoRi</Company>
+    <Description>Shared technical building blocks for the ECommerce microservices.</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+</Project>
