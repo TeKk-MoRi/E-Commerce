@@ -5,6 +5,7 @@ using ECommerce.Application.Usecases.Auth.login;
 using ECommerce.Application.Usecases.Auth.Logout;
 using ECommerce.Application.Usecases.Auth.RefreshToken;
 using ECommerce.Application.Usecases.Auth.Register;
+using ECommerce.Presentation.Authentication;
 using ECommerce.Presentation.Contracts.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -101,14 +102,5 @@ public class AuthController(ISender sender) : BaseController(sender)
             Roles = User.FindAll(ClaimTypes.Role).Select(x => x.Value).ToList()
         });
     }
-
-    [Authorize(Policy = "AdminOnly")]
-    [HttpGet("admin-test")]
-    public IActionResult AdminTest()
-    {
-        return Ok(new
-        {
-            Message = "You are admin"
-        });
-    }
+    
 }

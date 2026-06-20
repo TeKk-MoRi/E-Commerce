@@ -8,6 +8,7 @@ using ECommerce.Infrastructure;
 using ECommerce.Presentation;
 using ECommerce.Presentation.Services;
 using System.Security.Claims;
+using ECommerce.Presentation.Authentication;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 
@@ -44,12 +45,6 @@ builder.Services
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy =>
-    {
-        policy.RequireAuthenticatedUser();
-
-        policy.RequireRole("admin");
-    });
 });
 
 #endregion

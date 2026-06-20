@@ -66,15 +66,15 @@ public sealed class KeycloakClaimsTransformation : IClaimsTransformation
         }
     }
 
-    private static readonly HashSet<string> ApplicationRoles =
+    private static readonly HashSet<string> AllowedApplicationRoles =
     [
-        "admin",
-        "customer"
+        ApplicationRoles.Admin,
+        ApplicationRoles.Customer
     ];
 
     private static void AddRoleIfMissing(ClaimsIdentity identity, string role)
     {
-        if (!ApplicationRoles.Contains(role))
+        if (!AllowedApplicationRoles.Contains(role))
             return;
 
         if (identity.HasClaim(ClaimTypes.Role, role))
