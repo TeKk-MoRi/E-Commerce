@@ -1,3 +1,4 @@
+using ECommerce.BuildingBlocks.Application;
 using Catalog.Application.Common;
 using Catalog.Domain.Exceptions;
 using MediatR;

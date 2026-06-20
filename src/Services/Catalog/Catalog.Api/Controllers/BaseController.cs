@@ -1,5 +1,6 @@
+using ECommerce.BuildingBlocks.Application;
 using Catalog.Application.Common;
-using Catalog.Application.Common.Enums;
+using ECommerce.BuildingBlocks.Application.Enums;
 using Catalog.Api.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

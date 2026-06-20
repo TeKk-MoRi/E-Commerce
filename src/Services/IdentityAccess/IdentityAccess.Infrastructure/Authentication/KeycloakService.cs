@@ -1,8 +1,8 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
-using IdentityAccess.Application.Common;
-using IdentityAccess.Application.Common.Errors;
+using ECommerce.BuildingBlocks.Application;
+using ECommerce.BuildingBlocks.Application.Errors;
 using IdentityAccess.Application.Common.Interfaces;
 using Microsoft.Extensions.Options;
 

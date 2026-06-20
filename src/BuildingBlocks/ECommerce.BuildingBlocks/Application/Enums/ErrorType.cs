@@ -1,5 +1,4 @@
-namespace Catalog.Application.Common.Enums;
-
+namespace ECommerce.BuildingBlocks.Application.Enums;
 
 public enum ErrorType
 {

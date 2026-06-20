@@ -1,4 +1,4 @@
-using IdentityAccess.Application.Common;
+using ECommerce.BuildingBlocks.Application;
 using IdentityAccess.Application.Common.Interfaces;
 using MediatR;
 

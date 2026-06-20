@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using IdentityAccess.Application.Common;
+using ECommerce.BuildingBlocks.Application;
 using IdentityAccess.Application.Common.Interfaces;
 using IdentityAccess.Application.Usecases.Auth.Login;
 using IdentityAccess.Application.Usecases.Auth.Logout;

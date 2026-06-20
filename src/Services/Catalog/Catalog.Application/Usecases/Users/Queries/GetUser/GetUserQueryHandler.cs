@@ -1,4 +1,5 @@
-﻿using Catalog.Application.Common;
+﻿using ECommerce.BuildingBlocks.Application;
+using Catalog.Application.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
