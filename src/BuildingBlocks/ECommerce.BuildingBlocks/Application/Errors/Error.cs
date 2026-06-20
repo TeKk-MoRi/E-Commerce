@@ -1,6 +1,6 @@
-using Catalog.Application.Common.Enums;
+using ECommerce.BuildingBlocks.Application.Enums;
 
-namespace Catalog.Application.Common.Errors;
+namespace ECommerce.BuildingBlocks.Application.Errors;
 
 public sealed record Error(
     string Code,

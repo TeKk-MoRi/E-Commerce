@@ -1,5 +1,5 @@
-using IdentityAccess.Application.Common;
-using IdentityAccess.Application.Common.Enums;
+using ECommerce.BuildingBlocks.Application;
+using ECommerce.BuildingBlocks.Application.Enums;
 using IdentityAccess.Application.Common.Interfaces;
 using MediatR;
 

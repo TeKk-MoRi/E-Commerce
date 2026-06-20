@@ -1,6 +1,6 @@
-﻿using Catalog.Application.Common.Errors;
+using ECommerce.BuildingBlocks.Application.Errors;
 
-namespace Catalog.Application.Common;
+namespace ECommerce.BuildingBlocks.Application;
 
 public class Result
 {
@@ -39,6 +39,12 @@ public class Result
 
     public static Result Conflict(string code, string message) =>
         Failure(Error.Conflict(code, message));
+
+    public static Result Unauthorized(string code, string message) =>
+        Failure(Error.Unauthorized(code, message));
+
+    public static Result Forbidden(string code, string message) =>
+        Failure(Error.Forbidden(code, message));
 }
 
 public class Result<T> : Result
@@ -71,4 +77,10 @@ public class Result<T> : Result
 
     public static new Result<T> Conflict(string code, string message) =>
         Failure(Error.Conflict(code, message));
+
+    public static new Result<T> Unauthorized(string code, string message) =>
+        Failure(Error.Unauthorized(code, message));
+
+    public static new Result<T> Forbidden(string code, string message) =>
+        Failure(Error.Forbidden(code, message));
 }

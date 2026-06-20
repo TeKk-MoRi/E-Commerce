@@ -1,5 +1,5 @@
 ﻿using Catalog.Application.Common;
-using Catalog.Application.Common.Enums;
+using ECommerce.BuildingBlocks.Application.Enums;
 using Catalog.Application.Usecases.Products.Create;
 using Catalog.Domain.Entities.Products;
 using FluentAssertions;

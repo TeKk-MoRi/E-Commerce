@@ -6,11 +6,15 @@
     <Nullable>enable</Nullable>
 
     <PackageId>ECommerce.BuildingBlocks</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.2.1</Version>
     <Authors>TeKk-MoRi</Authors>
     <Company>TeKk-MoRi</Company>
     <Description>Shared technical building blocks for the ECommerce microservices.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.5" />
+  </ItemGroup>
 </Project>

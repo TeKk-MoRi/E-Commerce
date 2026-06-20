@@ -3,42 +3,13 @@ using Catalog.Api.Services;
 using Catalog.Application;
 using Catalog.Application.Common.Interfaces;
 using Catalog.Infrastructure;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
-using System.Security.Claims;
+using ECommerce.BuildingBlocks.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var keycloakAuthority = builder.Configuration["Keycloak:Authority"]
-    ?? throw new InvalidOperationException("Keycloak Authority configuration is missing.");
-
-var keycloakRealm = builder.Configuration["Keycloak:Realm"]
-    ?? throw new InvalidOperationException("Keycloak Realm configuration is missing.");
-
-var keycloakClientId = builder.Configuration["Keycloak:ClientId"]
-    ?? throw new InvalidOperationException("Keycloak ClientId configuration is missing.");
-
-builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.Authority = $"{keycloakAuthority}/realms/{keycloakRealm}";
-        options.Audience = keycloakClientId;
-        options.RequireHttpsMetadata = false;
-        options.MapInboundClaims = false;
-
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = false,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            NameClaimType = "preferred_username",
-            RoleClaimType = ClaimTypes.Role
-        };
-    });
+builder.Services.AddKeycloakJwtAuthentication(builder.Configuration);
 
 builder.Services.AddAuthorization(options =>
 {

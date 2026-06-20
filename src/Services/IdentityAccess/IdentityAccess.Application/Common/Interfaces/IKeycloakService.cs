@@ -1,3 +1,5 @@
+using ECommerce.BuildingBlocks.Application;
+
 namespace IdentityAccess.Application.Common.Interfaces
 {
     public interface IKeycloakService
