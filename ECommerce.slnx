@@ -1,21 +1,35 @@
 <Solution>
   <Folder Name="/src/" />
-  <Folder Name="/src/Core/">
-    <Project Path="ECommerce.Application/ECommerce.Application.csproj" />
-    <Project Path="ECommerce.Domain/ECommerce.Domain.csproj" />
+
+  <Folder Name="/src/Gateways/" />
+
+  <Folder Name="/src/Services/" />
+
+  <Folder Name="/src/Services/Catalog/">
+    <Project Path="src/Services/Catalog/Catalog.Domain/Catalog.Domain.csproj" />
+    <Project Path="src/Services/Catalog/Catalog.Application/Catalog.Application.csproj" />
+    <Project Path="src/Services/Catalog/Catalog.Infrastructure/Catalog.Infrastructure.csproj" />
+    <Project Path="src/Services/Catalog/Catalog.Api/Catalog.Api.csproj" />
   </Folder>
-  <Folder Name="/src/Infrastructure/">
-    <Project Path="ECommerce.Infrastructure.Persistence/ECommerce.Infrastructure.Persistence.csproj" />
-    <Project Path="ECommerce.Infrastructure/ECommerce.Infrastructure.csproj" />
+
+  <Folder Name="/src/Services/IdentityAccess/">
+    <Project Path="src/Services/IdentityAccess/IdentityAccess.Api/IdentityAccess.Api.csproj" />
+    <Project Path="src/Services/IdentityAccess/IdentityAccess.Application/IdentityAccess.Application.csproj" />
+    <Project Path="src/Services/IdentityAccess/IdentityAccess.Infrastructure/IdentityAccess.Infrastructure.csproj" />
   </Folder>
-  <Folder Name="/src/Presentation/">
-    <Project Path="ECommerce.Presentation/ECommerce.Presentation.csproj" />
+
+  <Folder Name="/src/Services/Basket/" />
+
+  <Folder Name="/src/Services/Ordering/" />
+
+  <Folder Name="/src/BuildingBlocks/">
+    <Project Path="src/BuildingBlocks/ECommerce.BuildingBlocks/ECommerce.BuildingBlocks.csproj" />
   </Folder>
+
   <Folder Name="/tests/" />
-  <Folder Name="/tests/Application/">
-    <Project Path="ECommerce.Application.Tests/ECommerce.Application.Tests.csproj" Id="4d16b230-9e63-424f-8a05-e202862aae7f" />
-  </Folder>
-  <Folder Name="/tests/Domain/">
-    <Project Path="ECommerce.Domain.Tests/ECommerce.Domain.Tests.csproj" Id="6ef23f7a-f8b7-4a64-951c-ba2f1b942617" />
+
+  <Folder Name="/tests/Services/Catalog/">
+    <Project Path="tests/Services/Catalog/Catalog.Domain.Tests/Catalog.Domain.Tests.csproj" />
+    <Project Path="tests/Services/Catalog/Catalog.Application.Tests/Catalog.Application.Tests.csproj" />
   </Folder>
 </Solution>

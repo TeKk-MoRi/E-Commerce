@@ -1,0 +1,12 @@
+using FluentValidation;
+
+namespace IdentityAccess.Application.Usecases.Auth.Logout;
+
+public sealed class LogoutUserCommandValidator : AbstractValidator<LogoutUserCommand>
+{
+    public LogoutUserCommandValidator()
+    {
+        RuleFor(x => x.RefreshToken)
+            .NotEmpty().WithMessage("Refresh token is required.");
+    }
+}
