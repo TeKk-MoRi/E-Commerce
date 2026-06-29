@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IdentityAccess.Api.Controllers.V1;
 
 [ApiController]
-[Route("api/auth")]
+[Route("api/v1/auth")]
 public class AuthController(ISender sender) : BaseController(sender)
 {
     [AllowAnonymous]

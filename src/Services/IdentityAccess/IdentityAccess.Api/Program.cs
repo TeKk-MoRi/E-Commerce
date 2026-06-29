@@ -3,6 +3,8 @@ using IdentityAccess.Application;
 using IdentityAccess.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi;
+using IdentityAccess.Application.Authorization;
+using IdentityAccess.Infrastructure.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,15 @@ builder.Services.AddKeycloakJwtAuthentication(builder.Configuration);
 
 builder.Services.AddAuthorization(options =>
 {
+    foreach (var permission in ApplicationPermissions.All)
+    {
+        options.AddPolicy(permission, policy =>
+        {
+            policy.RequireAuthenticatedUser();
+            policy.Requirements.Add(new PermissionRequirement(permission));
+        });
+    }
+
     options.FallbackPolicy = new AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
         .Build();
