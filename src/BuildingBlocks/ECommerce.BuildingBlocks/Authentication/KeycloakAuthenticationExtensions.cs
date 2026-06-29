@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 
 namespace ECommerce.BuildingBlocks.Authentication;
@@ -46,6 +47,8 @@ public static class KeycloakAuthenticationExtensions
                     RoleClaimType = ClaimTypes.Role
                 };
             });
+        
+        services.AddTransient<IClaimsTransformation, KeycloakRoleClaimsTransformation>();
 
         return services;
     }

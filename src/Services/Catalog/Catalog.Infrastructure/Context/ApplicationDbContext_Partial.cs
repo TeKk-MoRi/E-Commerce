@@ -1,5 +1,4 @@
 ﻿using Catalog.Domain.Entities.Products;
-using Catalog.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Infrastructure.Context

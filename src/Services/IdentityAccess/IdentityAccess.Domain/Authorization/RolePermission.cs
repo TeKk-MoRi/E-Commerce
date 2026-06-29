@@ -1,4 +1,4 @@
-namespace Catalog.Domain.Entities.Authorization;
+namespace IdentityAccess.Domain.Authorization;
 
 public sealed class RolePermission
 {
@@ -16,7 +16,7 @@ public sealed class RolePermission
 
     public Guid Id { get; private set; }
 
-    public string RoleName { get; private set; } = string.Empty;
+    public string RoleName { get; private set; } = null!;
 
     public Guid PermissionId { get; private set; }
 
@@ -27,10 +27,10 @@ public sealed class RolePermission
     public static RolePermission Create(string roleName, Guid permissionId)
     {
         if (string.IsNullOrWhiteSpace(roleName))
-            throw new ArgumentException("Role name is required.", nameof(roleName));
+            throw new ArgumentException("Role name cannot be empty.", nameof(roleName));
 
         if (permissionId == Guid.Empty)
-            throw new ArgumentException("Permission id is required.", nameof(permissionId));
+            throw new ArgumentException("Permission id cannot be empty.", nameof(permissionId));
 
         return new RolePermission(roleName.Trim(), permissionId);
     }

@@ -7,7 +7,7 @@ namespace Catalog.Domain.Entities.Products;
 
 public class Product : Entity
 {
-    public string Name { get; private set; }
+    public string Name { get; private set; } = null!;
     public decimal Price { get; private set; }
     public int Stock { get; private set; }
 

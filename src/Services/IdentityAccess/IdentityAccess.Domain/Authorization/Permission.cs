@@ -1,4 +1,4 @@
-namespace Catalog.Domain.Entities.Authorization;
+namespace IdentityAccess.Domain.Authorization;
 
 public sealed class Permission
 {
@@ -16,19 +16,19 @@ public sealed class Permission
 
     public Guid Id { get; private set; }
 
-    public string Code { get; private set; } = string.Empty;
+    public string Code { get; private set; } = null!;
 
-    public string Description { get; private set; } = string.Empty;
+    public string Description { get; private set; } = null!;
 
     public DateTime CreatedAt { get; private set; }
 
     public static Permission Create(string code, string description)
     {
         if (string.IsNullOrWhiteSpace(code))
-            throw new ArgumentException("Permission code is required.", nameof(code));
+            throw new ArgumentException("Permission code cannot be empty.", nameof(code));
 
         if (string.IsNullOrWhiteSpace(description))
-            throw new ArgumentException("Permission description is required.", nameof(description));
+            throw new ArgumentException("Permission description cannot be empty.", nameof(description));
 
         return new Permission(code.Trim(), description.Trim());
     }

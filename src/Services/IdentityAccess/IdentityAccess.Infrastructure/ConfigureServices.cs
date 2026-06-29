@@ -1,5 +1,7 @@
 ﻿using IdentityAccess.Application.Common.Interfaces;
 using IdentityAccess.Infrastructure.Authentication;
+using IdentityAccess.Infrastructure.Persistence.Context;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,8 +14,12 @@ public static class ConfigureServices
         IConfiguration configuration)
     {
         services.Configure<KeycloakConfig>(configuration.GetSection("Keycloak"));
-
         services.AddHttpClient<IKeycloakService, KeycloakService>();
+
+        services.AddDbContext<IdentityAccessDbContext>(options =>
+        {
+            options.UseNpgsql(configuration.GetConnectionString("IdentityAccessDb"));
+        });
 
         return services;
     }
