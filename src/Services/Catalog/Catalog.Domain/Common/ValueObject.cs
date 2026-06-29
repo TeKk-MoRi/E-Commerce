@@ -2,11 +2,11 @@
 
 public abstract class ValueObject
 {
-    protected abstract IEnumerable<object> GetEqualityComponents();
+    protected abstract IEnumerable<object?> GetEqualityComponents();
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
-        if (obj == null || obj.GetType() != GetType())
+        if (obj is null || obj.GetType() != GetType())
             return false;
 
         var other = (ValueObject)obj;
@@ -27,7 +27,7 @@ public abstract class ValueObject
             });
     }
 
-    protected static bool EqualOperator(ValueObject left, ValueObject right)
+    protected static bool EqualOperator(ValueObject? left, ValueObject? right)
     {
         if (left is null ^ right is null)
             return false;
@@ -35,6 +35,6 @@ public abstract class ValueObject
         return left?.Equals(right) ?? false;
     }
 
-    protected static bool NotEqualOperator(ValueObject left, ValueObject right)
-        => !(EqualOperator(left, right));
+    protected static bool NotEqualOperator(ValueObject? left, ValueObject? right)
+        => !EqualOperator(left, right);
 }

@@ -1,7 +1,6 @@
 ﻿using ECommerce.BuildingBlocks.Application;
 using Catalog.Application.Common;
 using Catalog.Domain.Entities.Products;
-using Catalog.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
