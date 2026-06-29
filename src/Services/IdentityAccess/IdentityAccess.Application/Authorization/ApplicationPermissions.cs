@@ -10,4 +10,14 @@ public static class ApplicationPermissions
 
     public const string IdentityUsersManage = "identity.users.manage";
     public const string IdentityRolesManage = "identity.roles.manage";
+
+    public static readonly string[] All =
+    [
+        CatalogProductsView,
+        CatalogProductsManage,
+        OrderingOrdersViewOwn,
+        OrderingOrdersManage,
+        IdentityUsersManage,
+        IdentityRolesManage
+    ];
 }
