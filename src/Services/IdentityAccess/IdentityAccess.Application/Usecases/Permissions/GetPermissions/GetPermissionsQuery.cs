@@ -1,5 +1,5 @@
 using ECommerce.BuildingBlocks.Application;
-using IdentityAccess.Application.Authorization;
+using IdentityAccess.Application.Authorization.DTOs;
 using IdentityAccess.Application.Common.Interfaces;
 using MediatR;
 

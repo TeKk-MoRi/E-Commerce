@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
 
     <PackageId>ECommerce.BuildingBlocks</PackageId>
-    <Version>0.2.2</Version>
+    <Version>0.2.3</Version>
     <Authors>TeKk-MoRi</Authors>
     <Company>TeKk-MoRi</Company>
     <Description>Shared technical building blocks for the ECommerce microservices.</Description>

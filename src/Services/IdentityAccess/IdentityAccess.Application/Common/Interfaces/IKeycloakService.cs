@@ -7,17 +7,22 @@ namespace IdentityAccess.Application.Common.Interfaces
         // Authentication methods
         Task<Result<KeycloakTokenResponse>> LoginAsync(string username, string password);
         Task<Result<bool>> ValidateTokenAsync(string token);
-        Task<Result<bool>> LogoutAsync(string refreshToken);      
+        Task<Result<bool>> LogoutAsync(string refreshToken);
         Task<Result<KeycloakTokenResponse>> RefreshTokenAsync(string refreshToken);
-        Task<Result<string>> CreateUserAsync(string username, string email, string firstName, string lastName, string password);
+
+        Task<Result<string>> CreateUserAsync(string username, string email, string firstName, string lastName,
+            string password);
+
         Task<Result<bool>> UpdateUserAsync(string userId, string email, string firstName, string lastName);
         Task<Result<bool>> DeleteUserAsync(string userId);
 
         // Role management
-        Task<Result<bool>> AssignRolesAsync(string userId, List<string> roles);
-        Task<Result<bool>> RemoveRolesAsync(string userId, List<string> roles);
-        Task<Result<List<KeycloakRoleDto>>> GetRealmRolesAsync();
+        Task<Result<bool>> AssignRealmRoleToUserAsync(string userId, string roleName,
+            CancellationToken cancellationToken = default);
 
+        Task<Result<bool>> UnassignRealmRoleFromUserAsync(string userId, string roleName,
+            CancellationToken cancellationToken = default);
+        
         // Group management  
         Task<Result<bool>> AssignToGroupAsync(string userId, string groupId);
         Task<Result<bool>> RemoveFromGroupAsync(string userId, string groupId);
