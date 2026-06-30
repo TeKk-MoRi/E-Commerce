@@ -1,5 +1,6 @@
 using ECommerce.BuildingBlocks.Application;
 using IdentityAccess.Application.Authorization;
+using IdentityAccess.Application.Authorization.DTOs;
 using IdentityAccess.Application.Usecases.Permissions.GetPermissions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

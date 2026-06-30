@@ -2,8 +2,9 @@ using IdentityAccess.Application.Authorization.DTOs;
 
 namespace IdentityAccess.Application.Common.Interfaces;
 
-public interface IPermissionReadService
+public interface IRolePermissionReadService
 {
-    Task<IReadOnlyCollection<PermissionDto>> GetAllAsync(
+    Task<RolePermissionsResponse> GetByRoleNameAsync(
+        string roleName,
         CancellationToken cancellationToken = default);
 }

@@ -1,4 +1,4 @@
-namespace IdentityAccess.Application.Authorization;
+namespace IdentityAccess.Application.Authorization.DTOs;
 
 public sealed record PermissionDto(
     Guid Id,

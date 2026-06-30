@@ -1,4 +1,4 @@
-using IdentityAccess.Application.Authorization;
+using IdentityAccess.Application.Authorization.DTOs;
 using IdentityAccess.Application.Common.Interfaces;
 using IdentityAccess.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;

@@ -24,6 +24,8 @@ public static class ConfigureServices
         });
         services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
         services.AddScoped<IPermissionReadService, PermissionReadService>();
+        services.AddScoped<IRolePermissionReadService, RolePermissionReadService>();
+        services.AddScoped<IRolePermissionWriteService, RolePermissionWriteService>();
 
         return services;
     }

@@ -19,7 +19,47 @@ public class KeycloakService : IKeycloakService
     {
         _httpClient = httpClient;
         _config = config.Value;
-        _httpClient.BaseAddress = new Uri(_config.Authority);
+        _httpClient.BaseAddress = new Uri(_config.BaseUrl);
+    }
+
+    public sealed record KeycloakRoleRepresentation(
+        string Id,
+        string Name,
+        string? Description,
+        bool Composite,
+        bool ClientRole,
+        string? ContainerId);
+    
+    private async Task<Result<KeycloakRoleRepresentation>> GetRealmRoleAsync(
+        string roleName,
+        CancellationToken cancellationToken = default)
+    {
+        await EnsureAdminTokenAsync();
+
+        var request = CreateAdminRequest(
+            HttpMethod.Get,
+            $"/admin/realms/{_config.Realm}/roles/{roleName}");
+
+        var response = await _httpClient.SendAsync(request, cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return NotFound<KeycloakRoleRepresentation>(
+                "Keycloak.RoleNotFound",
+                $"Role '{roleName}' was not found in Keycloak.");
+        }
+
+        var role = await response.Content.ReadFromJsonAsync<KeycloakRoleRepresentation>(
+            cancellationToken);
+
+        if (role is null)
+        {
+            return Failure<KeycloakRoleRepresentation>(
+                "Keycloak.InvalidRoleResponse",
+                "Keycloak returned an invalid role response.");
+        }
+
+        return Result<KeycloakRoleRepresentation>.Success(role);
     }
 
     public async Task<Result<KeycloakTokenResponse>> LoginAsync(string username, string password)
@@ -61,7 +101,7 @@ public class KeycloakService : IKeycloakService
                 $"Login failed: {ex.Message}");
         }
     }
-    
+
     public async Task<Result<KeycloakTokenResponse>> RefreshTokenAsync(string refreshToken)
     {
         try
@@ -296,122 +336,71 @@ public class KeycloakService : IKeycloakService
                 $"User deletion error: {ex.Message}");
         }
     }
-
-    public async Task<Result<bool>> AssignRolesAsync(string userId, List<string> roles)
+    
+    public async Task<Result<bool>> AssignRealmRoleToUserAsync(
+        string userId,
+        string roleName,
+        CancellationToken cancellationToken = default)
     {
-        try
+        var roleResult = await GetRealmRoleAsync(roleName, cancellationToken);
+
+        if (roleResult.IsFailure)
+            return Result<bool>.Failure(roleResult.Error);
+
+        await EnsureAdminTokenAsync();
+
+        var request = CreateAdminRequest(
+            HttpMethod.Post,
+            $"/admin/realms/{_config.Realm}/users/{userId}/role-mappings/realm");
+
+        request.Content = JsonContent.Create(new[] { roleResult.Data });
+
+        var response = await _httpClient.SendAsync(request, cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
         {
-            await EnsureAdminTokenAsync();
+            var error = await response.Content.ReadAsStringAsync(cancellationToken);
 
-            var availableRolesResult = await GetRealmRolesAsync();
-
-            if (availableRolesResult.IsFailure)
-                return Result<bool>.Failure(availableRolesResult.Error);
-
-            var rolesToAssign = availableRolesResult.Data!
-                .Where(role => roles.Contains(role.Name))
-                .Select(role => new
-                {
-                    id = role.Id,
-                    name = role.Name
-                })
-                .ToList();
-
-            var request = CreateAdminRequest(
-                HttpMethod.Post,
-                $"/admin/realms/{_config.Realm}/users/{userId}/role-mappings/realm");
-
-            request.Content = JsonContent.Create(rolesToAssign);
-
-            var response = await _httpClient.SendAsync(request);
-
-            return response.IsSuccessStatusCode
-                ? Result<bool>.Success(true)
-                : Failure<bool>(
-                    "Keycloak.RoleAssignmentFailed",
-                    "Role assignment failed.");
-        }
-        catch (Exception ex)
-        {
             return Failure<bool>(
-                "Keycloak.RoleAssignmentError",
-                $"Role assignment error: {ex.Message}");
+                "Keycloak.AssignRoleFailed",
+                $"Failed to assign role '{roleName}' to user. Keycloak response: {error}");
         }
+
+        return Result<bool>.Success(true);
     }
-
-    public async Task<Result<bool>> RemoveRolesAsync(string userId, List<string> roles)
+    
+    public async Task<Result<bool>> UnassignRealmRoleFromUserAsync(
+        string userId,
+        string roleName,
+        CancellationToken cancellationToken = default)
     {
-        try
+        var roleResult = await GetRealmRoleAsync(roleName, cancellationToken);
+
+        if (roleResult.IsFailure)
+            return Result<bool>.Failure(roleResult.Error);
+
+        await EnsureAdminTokenAsync();
+
+        var request = CreateAdminRequest(
+            HttpMethod.Delete,
+            $"/admin/realms/{_config.Realm}/users/{userId}/role-mappings/realm");
+
+        request.Content = JsonContent.Create(new[] { roleResult.Data });
+
+        var response = await _httpClient.SendAsync(request, cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
         {
-            await EnsureAdminTokenAsync();
+            var error = await response.Content.ReadAsStringAsync(cancellationToken);
 
-            var availableRolesResult = await GetRealmRolesAsync();
-
-            if (availableRolesResult.IsFailure)
-                return Result<bool>.Failure(availableRolesResult.Error);
-
-            var rolesToRemove = availableRolesResult.Data!
-                .Where(role => roles.Contains(role.Name))
-                .Select(role => new
-                {
-                    id = role.Id,
-                    name = role.Name
-                })
-                .ToList();
-
-            var request = CreateAdminRequest(
-                HttpMethod.Delete,
-                $"/admin/realms/{_config.Realm}/users/{userId}/role-mappings/realm");
-
-            request.Content = JsonContent.Create(rolesToRemove);
-
-            var response = await _httpClient.SendAsync(request);
-
-            return response.IsSuccessStatusCode
-                ? Result<bool>.Success(true)
-                : Failure<bool>(
-                    "Keycloak.RoleRemovalFailed",
-                    "Role removal failed.");
-        }
-        catch (Exception ex)
-        {
             return Failure<bool>(
-                "Keycloak.RoleRemovalError",
-                $"Role removal error: {ex.Message}");
+                "Keycloak.UnassignRoleFailed",
+                $"Failed to unassign role '{roleName}' from user. Keycloak response: {error}");
         }
+
+        return Result<bool>.Success(true);
     }
 
-    public async Task<Result<List<KeycloakRoleDto>>> GetRealmRolesAsync()
-    {
-        try
-        {
-            await EnsureAdminTokenAsync();
-
-            var request = CreateAdminRequest(
-                HttpMethod.Get,
-                $"/admin/realms/{_config.Realm}/roles");
-
-            var response = await _httpClient.SendAsync(request);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                return Failure<List<KeycloakRoleDto>>(
-                    "Keycloak.GetRolesFailed",
-                    "Failed to get realm roles.");
-            }
-
-            var roles = await response.Content.ReadFromJsonAsync<List<KeycloakRoleDto>>();
-
-            return Result<List<KeycloakRoleDto>>.Success(
-                roles ?? new List<KeycloakRoleDto>());
-        }
-        catch (Exception ex)
-        {
-            return Failure<List<KeycloakRoleDto>>(
-                "Keycloak.GetRolesError",
-                $"Get roles error: {ex.Message}");
-        }
-    }
 
     public async Task<Result<bool>> AssignToGroupAsync(string userId, string groupId)
     {

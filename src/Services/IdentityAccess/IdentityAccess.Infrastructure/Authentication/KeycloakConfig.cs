@@ -1,16 +1,19 @@
 
 namespace IdentityAccess.Infrastructure.Authentication
 {
-    public class KeycloakConfig
+
+    public sealed class KeycloakConfig
     {
-        public string Authority { get; set; } = string.Empty;
-        public string Realm { get; set; } = string.Empty;
+        public string BaseUrl { get; init; } = string.Empty;
+        public string Authority { get; init; } = string.Empty;
+        public string Realm { get; init; } = string.Empty;
 
-        public string ClientId { get; set; } = string.Empty;
-        public string ClientSecret { get; set; } = string.Empty;
+        public string AdminRealm { get; init; } = "master";
+        public string AdminClientId { get; init; } = "admin-cli";
+        public string AdminUsername { get; init; } = string.Empty;
+        public string AdminPassword { get; init; } = string.Empty;
 
-        public string AdminClientId { get; set; } = "admin-cli";
-        public string AdminUsername { get; set; } = string.Empty;
-        public string AdminPassword { get; set; } = string.Empty;
+        public string ClientId { get; init; } = string.Empty;
+        public string ClientSecret { get; init; } = string.Empty;
     }
 }

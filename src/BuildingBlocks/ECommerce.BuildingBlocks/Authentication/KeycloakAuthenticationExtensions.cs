@@ -1,8 +1,8 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 
 namespace ECommerce.BuildingBlocks.Authentication;
@@ -22,9 +22,6 @@ public static class KeycloakAuthenticationExtensions
         if (string.IsNullOrWhiteSpace(keycloakOptions.Authority))
             throw new InvalidOperationException("Keycloak Authority configuration is missing.");
 
-        if (string.IsNullOrWhiteSpace(keycloakOptions.Realm))
-            throw new InvalidOperationException("Keycloak Realm configuration is missing.");
-
         if (string.IsNullOrWhiteSpace(keycloakOptions.ClientId))
             throw new InvalidOperationException("Keycloak ClientId configuration is missing.");
 
@@ -32,7 +29,7 @@ public static class KeycloakAuthenticationExtensions
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                options.Authority = $"{keycloakOptions.Authority}/realms/{keycloakOptions.Realm}";
+                options.Authority = keycloakOptions.Authority;
                 options.Audience = keycloakOptions.ClientId;
                 options.RequireHttpsMetadata = keycloakOptions.RequireHttpsMetadata;
                 options.MapInboundClaims = false;
@@ -47,7 +44,7 @@ public static class KeycloakAuthenticationExtensions
                     RoleClaimType = ClaimTypes.Role
                 };
             });
-        
+
         services.AddTransient<IClaimsTransformation, KeycloakRoleClaimsTransformation>();
 
         return services;
