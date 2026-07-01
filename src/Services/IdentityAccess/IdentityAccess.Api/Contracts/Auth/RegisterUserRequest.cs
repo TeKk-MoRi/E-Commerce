@@ -1,4 +1,4 @@
-namespace IdentityAccess.Contracts.Auth;
+namespace IdentityAccess.Api.Contracts.Auth;
 
 public sealed record RegisterUserRequest(
     string Username,

@@ -1,13 +1,12 @@
 using System.Security.Claims;
 using ECommerce.BuildingBlocks.Application;
-using IdentityAccess.Api.Contracts.Auth;
 using IdentityAccess.Application.Common.Interfaces;
 using IdentityAccess.Application.Usecases.Auth.ForgotPassword;
 using IdentityAccess.Application.Usecases.Auth.Login;
 using IdentityAccess.Application.Usecases.Auth.Logout;
 using IdentityAccess.Application.Usecases.Auth.RefreshToken;
 using IdentityAccess.Application.Usecases.Auth.Register;
-using IdentityAccess.Contracts.Auth;
+using IdentityAccess.Api.Contracts.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
