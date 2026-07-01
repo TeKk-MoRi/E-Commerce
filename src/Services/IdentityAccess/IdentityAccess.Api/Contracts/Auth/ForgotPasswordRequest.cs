@@ -1,6 +1,4 @@
-namespace IdentityAccess.Contracts.Auth;
+namespace IdentityAccess.Api.Contracts.Auth;
 
-public class ForgotPasswordRequest
-{
-    
-}
+public sealed record ForgotPasswordRequest(
+    string Email);
