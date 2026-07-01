@@ -61,6 +61,74 @@ public class KeycloakService : IKeycloakService
 
         return Result<KeycloakRoleRepresentation>.Success(role);
     }
+    
+    public async Task<Result<bool>> SendPasswordResetEmailAsync(
+    string email,
+    CancellationToken cancellationToken = default)
+{
+    try
+    {
+        await EnsureAdminTokenAsync();
+
+        var encodedEmail = Uri.EscapeDataString(email);
+
+        var findUserRequest = CreateAdminRequest(
+            HttpMethod.Get,
+            $"/admin/realms/{_config.Realm}/users?email={encodedEmail}&exact=true");
+
+        var findUserResponse = await _httpClient.SendAsync(
+            findUserRequest,
+            cancellationToken);
+
+        if (!findUserResponse.IsSuccessStatusCode)
+        {
+            return Failure<bool>(
+                "Keycloak.UserLookupFailed",
+                "Could not process password reset request.");
+        }
+
+        var users = await findUserResponse.Content.ReadFromJsonAsync<List<KeycloakUserDto>>(
+            cancellationToken);
+
+        var user = users?.FirstOrDefault();
+
+        if (user is null || string.IsNullOrWhiteSpace(user.Id))
+        {
+            // Do not reveal whether the email exists.
+            return Result<bool>.Success(true);
+        }
+
+        var executeActionsRequest = CreateAdminRequest(
+            HttpMethod.Put,
+            $"/admin/realms/{_config.Realm}/users/{user.Id}/execute-actions-email?lifespan=900");
+
+        executeActionsRequest.Content = JsonContent.Create(new[]
+        {
+            "UPDATE_PASSWORD"
+        });
+
+        var executeActionsResponse = await _httpClient.SendAsync(
+            executeActionsRequest,
+            cancellationToken);
+
+        if (!executeActionsResponse.IsSuccessStatusCode)
+        {
+            var error = await executeActionsResponse.Content.ReadAsStringAsync(cancellationToken);
+
+            return Failure<bool>(
+                "Keycloak.PasswordResetEmailFailed",
+                $"Could not send password reset email. Keycloak response: {error}");
+        }
+
+        return Result<bool>.Success(true);
+    }
+    catch (Exception ex)
+    {
+        return Failure<bool>(
+            "Keycloak.PasswordResetEmailError",
+            $"Password reset request failed: {ex.Message}");
+    }
+}
 
     public async Task<Result<KeycloakTokenResponse>> LoginAsync(string username, string password)
     {

@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using ECommerce.BuildingBlocks.Application;
+using IdentityAccess.Api.Contracts.Auth;
 using IdentityAccess.Application.Common.Interfaces;
+using IdentityAccess.Application.Usecases.Auth.ForgotPassword;
 using IdentityAccess.Application.Usecases.Auth.Login;
 using IdentityAccess.Application.Usecases.Auth.Logout;
 using IdentityAccess.Application.Usecases.Auth.RefreshToken;
@@ -82,6 +84,22 @@ public class AuthController(ISender sender) : BaseController(sender)
             result,
             nameof(Me),
             new { });
+    }
+    
+    
+    [AllowAnonymous]
+    [HttpPost("forgot-password")]
+    [ProducesResponseType(typeof(Result<bool>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> ForgotPassword(
+        [FromBody] ForgotPasswordRequest request,
+        CancellationToken cancellationToken)
+    {
+        var result = await Sender.Send(
+            new ForgotPasswordCommand(request.Email),
+            cancellationToken);
+
+        return OkResult(result);
     }
     
     

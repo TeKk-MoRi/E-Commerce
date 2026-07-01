@@ -9,6 +9,10 @@ namespace IdentityAccess.Application.Common.Interfaces
         Task<Result<bool>> ValidateTokenAsync(string token);
         Task<Result<bool>> LogoutAsync(string refreshToken);
         Task<Result<KeycloakTokenResponse>> RefreshTokenAsync(string refreshToken);
+        
+        Task<Result<bool>> SendPasswordResetEmailAsync(
+            string email,
+            CancellationToken cancellationToken = default);
 
         Task<Result<string>> CreateUserAsync(string username, string email, string firstName, string lastName,
             string password);
