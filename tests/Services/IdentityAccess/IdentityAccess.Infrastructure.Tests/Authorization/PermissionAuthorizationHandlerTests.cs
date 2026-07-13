@@ -12,7 +12,7 @@ namespace IdentityAccess.Infrastructure.Tests.Authorization;
 public class PermissionAuthorizationHandlerTests(IdentityAccessDatabaseFixture fixture)
 {
     [Fact]
-    public async Task IdentityAccessPermissionChecker_Should_Return_True_When_One_User_Role_Has_Required_Permission()
+    public async Task HandleAsync_Should_Succeed_When_AnyUserRoleHasRequiredPermission()
     {
         // Arrange
         await fixture.ResetDatabaseAsync();
@@ -33,7 +33,7 @@ public class PermissionAuthorizationHandlerTests(IdentityAccessDatabaseFixture f
     }
 
     [Fact]
-    public async Task IdentityAccessPermissionChecker_Should_Return_False_When_User_Roles_Do_Not_Have_Required_Permission()
+    public async Task HandleAsync_Should_NotSucceed_When_UserRolesDoNotHaveRequiredPermission()
     {
         // Arrange
         await fixture.ResetDatabaseAsync();
@@ -54,7 +54,7 @@ public class PermissionAuthorizationHandlerTests(IdentityAccessDatabaseFixture f
     }
 
     [Fact]
-    public async Task IdentityAccessPermissionChecker_Should_Return_False_When_Roles_Are_Empty()
+    public async Task HandleAsync_Should_NotSucceed_When_UserHasNoRoles()
     {
         // Arrange
         await fixture.ResetDatabaseAsync();
