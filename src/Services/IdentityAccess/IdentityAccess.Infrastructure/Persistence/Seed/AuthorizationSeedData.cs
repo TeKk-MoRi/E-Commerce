@@ -1,5 +1,7 @@
 using IdentityAccess.Application.Authorization;
 using IdentityAccess.Domain.Authorization;
+using Catalog.Contracts.Authorization;
+
 
 namespace IdentityAccess.Infrastructure.Persistence.Seed;
 
@@ -30,12 +32,12 @@ internal static class AuthorizationSeedData
     [
         CreatePermission(
             ViewProductsPermissionId,
-            ApplicationPermissions.CatalogProductsView,
+            CatalogPermissions.ProductsView,
             "Can view products."),
 
         CreatePermission(
             ManageProductsPermissionId,
-            ApplicationPermissions.CatalogProductsManage,
+            CatalogPermissions.ProductsManage,
             "Can create, update, and delete products."),
 
         CreatePermission(

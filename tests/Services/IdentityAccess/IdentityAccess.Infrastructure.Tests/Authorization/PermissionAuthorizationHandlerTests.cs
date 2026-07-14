@@ -5,6 +5,7 @@ using IdentityAccess.Infrastructure.Authorization;
 using IdentityAccess.Infrastructure.Tests.TestHelpers;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Catalog.Contracts.Authorization;
 
 namespace IdentityAccess.Infrastructure.Tests.Authorization;
 
@@ -19,7 +20,7 @@ public class PermissionAuthorizationHandlerTests(IdentityAccessDatabaseFixture f
 
         await using var dbContext = fixture.CreateDbContext();
         var handler = new PermissionAuthorizationHandler(dbContext);
-        var requirement = new PermissionRequirement(ApplicationPermissions.CatalogProductsView);
+        var requirement = new PermissionRequirement(CatalogPermissions.ProductsView);
         var context = new AuthorizationHandlerContext(
             [requirement],
             CreateUser([ApplicationRoles.Customer]),
@@ -61,7 +62,7 @@ public class PermissionAuthorizationHandlerTests(IdentityAccessDatabaseFixture f
 
         await using var dbContext = fixture.CreateDbContext();
         var handler = new PermissionAuthorizationHandler(dbContext);
-        var requirement = new PermissionRequirement(ApplicationPermissions.CatalogProductsView);
+        var requirement = new PermissionRequirement(CatalogPermissions.ProductsView);
         var context = new AuthorizationHandlerContext(
             [requirement],
             CreateUser([]),

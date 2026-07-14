@@ -1,4 +1,5 @@
-﻿using ECommerce.BuildingBlocks.Application.Enums;
+﻿using Catalog.Contracts.Authorization;
+using ECommerce.BuildingBlocks.Application.Enums;
 using FluentAssertions;
 using IdentityAccess.Application.Authorization;
 using IdentityAccess.Infrastructure.Authorization;
@@ -74,7 +75,7 @@ public class RolePermissionWriteServiceTests(IdentityAccessDatabaseFixture fixtu
             var result = await service.ReplaceAsync(
                 " CUSTOMER ",
                 [
-                    ApplicationPermissions.CatalogProductsManage,
+                    CatalogPermissions.ProductsView,
                     ApplicationPermissions.IdentityUsersManage
                 ]);
 
@@ -91,7 +92,7 @@ public class RolePermissionWriteServiceTests(IdentityAccessDatabaseFixture fixtu
             .ToListAsync();
 
         storedPermissionCodes.Should().Equal(
-            ApplicationPermissions.CatalogProductsManage,
+            CatalogPermissions.ProductsManage,
             ApplicationPermissions.IdentityUsersManage);
     }
 }

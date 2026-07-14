@@ -1,4 +1,5 @@
-﻿using ECommerce.BuildingBlocks.Application;
+﻿using Catalog.Contracts.Authorization;
+using ECommerce.BuildingBlocks.Application;
 using ECommerce.BuildingBlocks.Application.Enums;
 using FluentAssertions;
 using IdentityAccess.Application.Authorization;
@@ -58,7 +59,7 @@ public class UpdateRolePermissionsCommandHandlerTests
         var result = await handler.Handle(
             new UpdateRolePermissionsCommand(
                 " ADMIN ",
-                [ApplicationPermissions.CatalogProductsView]),
+                [CatalogPermissions.ProductsView]),
             CancellationToken.None);
 
         // Assert

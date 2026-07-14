@@ -4,16 +4,17 @@ using Catalog.Api.Contracts.Products;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Catalog.Contracts.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Catalog.Api.Controllers.V1;
-
 
 [Route("api/products")]
 [Authorize]
 public class ProductsController(ISender sender) : BaseController(sender)
 {
     [HttpPost]
-    [Authorize(Policy = "AdminOnly")]
+    [Authorize(Policy = CatalogPermissions.ProductsManage)]
     public async Task<IActionResult> Create(
         [FromBody] CreateProductRequest request,
         CancellationToken cancellationToken)
@@ -32,7 +33,7 @@ public class ProductsController(ISender sender) : BaseController(sender)
     }
 
     [HttpPut("{id:guid}/price")]
-    [Authorize(Policy = "AdminOnly")]
+    [Authorize(Policy = CatalogPermissions.ProductsManage)]
     public async Task<IActionResult> UpdatePrice(
         Guid id,
         [FromBody] UpdateProductPriceRequest request,
@@ -46,6 +47,7 @@ public class ProductsController(ISender sender) : BaseController(sender)
     }
 
     [HttpGet("{id:guid}")]
+    [Authorize(Policy = CatalogPermissions.ProductsView)]
     public IActionResult GetById(Guid id)
     {
         return Ok(new { Id = id });

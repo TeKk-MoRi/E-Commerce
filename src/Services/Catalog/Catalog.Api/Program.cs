@@ -1,7 +1,5 @@
 ﻿using Catalog.Api;
-using Catalog.Api.Services;
 using Catalog.Application;
-using Catalog.Application.Common.Interfaces;
 using Catalog.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi;
@@ -47,20 +45,14 @@ builder.Services.AddControllers();
 builder.Services
     .RegisterApplicationServices()
     .RegisterPersistenceServices(builder.Configuration)
-    .RegisterPresentationServices();
-
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+    .RegisterPresentationServices(builder.Configuration);
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog API v1");
-    });
+    app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog API v1"); });
 }
 
 app.UseRouting();

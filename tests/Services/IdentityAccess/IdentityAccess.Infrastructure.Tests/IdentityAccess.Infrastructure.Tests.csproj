@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\..\..\src\Services\IdentityAccess\IdentityAccess.Application\IdentityAccess.Application.csproj" />
     <ProjectReference Include="..\..\..\..\src\Services\IdentityAccess\IdentityAccess.Domain\IdentityAccess.Domain.csproj" />
     <ProjectReference Include="..\..\..\..\src\Services\IdentityAccess\IdentityAccess.Infrastructure\IdentityAccess.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Services\Catalog\Catalog.Contracts\Catalog.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>
