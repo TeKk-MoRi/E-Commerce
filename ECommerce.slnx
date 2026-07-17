@@ -34,7 +34,9 @@
 
   <Folder Name="/tests/Services/Catalog/">
     <Project Path="tests/Services/Catalog/Catalog.Domain.Tests/Catalog.Domain.Tests.csproj" />
+    <Project Path="tests/Services/Catalog/Catalog.Api.Tests/Catalog.Api.Tests.csproj" />
     <Project Path="tests/Services/Catalog/Catalog.Application.Tests/Catalog.Application.Tests.csproj" />
+    <Project Path="tests/Services/Catalog/Catalog.Infrastructure.Tests/Catalog.Infrastructure.Tests.csproj" />
   </Folder>
 
   <Folder Name="/tests/Services/IdentityAccess/">
