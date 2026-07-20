@@ -1,10 +1,11 @@
+using Catalog.Api.Contracts.Products;
 using Catalog.Application.Usecases.Products;
 using Catalog.Application.Usecases.Products.Create;
-using Catalog.Api.Contracts.Products;
+using Catalog.Application.Usecases.Products.Get;
+using Catalog.Contracts.Authorization;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Catalog.Contracts.Authorization;
 
 namespace Catalog.Api.Controllers.V1;
 
@@ -47,8 +48,14 @@ public class ProductsController(ISender sender) : BaseController(sender)
 
     [HttpGet("{id:guid}")]
     [Authorize(Policy = CatalogPermissions.ProductsView)]
-    public IActionResult GetById(Guid id)
+    public async Task<IActionResult> GetById(
+        Guid id,
+        CancellationToken cancellationToken)
     {
-        return Ok(new { Id = id });
+        var result = await Sender.Send(
+            new GetProductByIdQuery(id),
+            cancellationToken);
+
+        return OkResult(result);
     }
 }
