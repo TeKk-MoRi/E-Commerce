@@ -5,7 +5,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Catalog.Contracts.Authorization;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Catalog.Api.Controllers.V1;
 
